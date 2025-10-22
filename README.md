@@ -2,9 +2,7 @@
 
 # React-Native Voice Assistant
 
-This is a starter template for [LiveKit Agents](https://docs.livekit.io/agents/overview/) that provides a simple voice interface using the [LiveKit React-Native SDK](https://github.com/livekit/client-sdk-react-native) and [Expo Plugin](https://github.com/livekit/client-sdk-react-native-expo-plugin).
-
-This template is free for you to use or modify as you see fit.
+A voice assistant application built with [LiveKit Agents](https://docs.livekit.io/agents/overview/) that provides a simple voice interface using the [LiveKit React-Native SDK](https://github.com/livekit/client-sdk-react-native) and [Expo Plugin](https://github.com/livekit/client-sdk-react-native-expo-plugin).
 
 ## Getting started
 
@@ -12,17 +10,32 @@ The easiest way to get this app running is with the [Sandbox for LiveKit Cloud](
 
 First, create a new [Sandbox Token Server](https://cloud.livekit.io/projects/p_mytc7vpzfkt/sandbox/templates/token-server) for your LiveKit Cloud project.
 
-Then, run the following command to automatically clone this template and connect it to LiveKit Cloud:
+### Prerequisites
 
+- Node.js (v16 or later)
+- Android Studio (for Android development) / just Android Emulator
+- Xcode (for iOS development, macOS only)
+- Expo CLI
+
+### Installation
+
+1. Clone the repository:
 ```bash
-lk app create --template agent-starter-react-native --sandbox <token_server_sandbox_id>
+git clone <your-repository-url>
+cd handii-frontend
 ```
 
-Afterwards, move to the newly created folder and run the following commands:
-
+2. Install dependencies:
 ```bash
 npm install
+```
 
+3. Set up environment variables:
+   - Copy `.env.example` to `.env.local`
+   - Add your LiveKit credentials to `.env.local`
+
+4. Run the application:
+```bash
 # Android
 npx expo run:android
 
@@ -30,10 +43,11 @@ npx expo run:android
 npx expo run:ios
 ```
 
-You'll also need an agent to speak with. Try our starter agent for [Python](https://github.com/livekit-examples/agent-starter-python), [Node.js](https://github.com/livekit-examples/agent-starter-node), or [create your own from scratch](https://docs.livekit.io/agents/start/voice-ai/).
+### Configuration
 
-> [!NOTE]
-> To setup without the LiveKit CLI, clone the repository and edit the `hooks/useConnectionDetails.ts` file to add either a `sandboxID` (if using a [Sandbox Token Server](https://cloud.livekit.io/projects/p_/sandbox/templates/token-server)), or a [manually generated](#token-generation) URL and token.
+Edit the `hooks/useConnectionDetails.ts` file to configure your LiveKit connection details. You can use either:
+- A `sandboxID` (if using a [Sandbox Token Server](https://cloud.livekit.io/projects/p_/sandbox/templates/token-server))
+- A manually generated URL and token
 
 ## Troubleshooting
 
@@ -83,10 +97,27 @@ This typically means the Android emulator is not running. Follow these steps to 
 > [!TIP]
 > Make sure you have Android Studio installed with the Android SDK and emulator properly configured. The emulator needs to be fully booted (showing the Android home screen) before running the Expo command.
 
-## Token generation
+## Production Deployment
 
-In a production environment, you will be responsible for developing a solution to [generate tokens for your users](https://docs.livekit.io/home/server/generating-tokens/) which is integrated with your authentication solution. You should disable your sandbox token server and modify `hooks/useConnectionDetails.ts` to use your own token server.
+In a production environment, you will need to:
+
+1. **Token Generation**: Implement a secure solution to [generate tokens for your users](https://docs.livekit.io/home/server/generating-tokens/) integrated with your authentication system.
+
+2. **Environment Configuration**:
+   - Disable sandbox token server
+   - Update `hooks/useConnectionDetails.ts` to use your production token server
+   - Configure proper environment variables for production
+
+3. **Android Release**:
+   - Generate a release keystore (do not commit to version control)
+   - Update `android/app/build.gradle` with release signing configuration
+   - Build signed APK/AAB for Google Play Store
+
+## Package Information
+
+- **Package Name**: `io.livekit.voiceassistantreactnative`
+- **Version**: 1.0.0
 
 ## Contributing
 
-This template is open source and we welcome contributions! Please open a PR or issue through GitHub, and don't forget to join us in the [LiveKit Community Slack](https://livekit.io/join-slack)!
+We welcome contributions! Please open a PR or issue through GitHub.
