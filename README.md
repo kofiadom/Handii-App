@@ -1,5 +1,3 @@
-<img src="./.github/assets/icon.png" alt="Voice Assistant App Icon" width="100" height="100">
-
 # React-Native Voice Assistant
 
 A voice assistant application built with [LiveKit Agents](https://docs.livekit.io/agents/overview/) that provides a simple voice interface using the [LiveKit React-Native SDK](https://github.com/livekit/client-sdk-react-native) and [Expo Plugin](https://github.com/livekit/client-sdk-react-native-expo-plugin).
