@@ -21,6 +21,7 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="(start)" options={{ headerShown: false }} />
         <Stack.Screen name="assistant" options={{ headerShown: false }} />
+        <Stack.Screen name="volunteers" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
