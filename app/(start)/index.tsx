@@ -1,12 +1,10 @@
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
   ScrollView,
-  Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -24,35 +22,35 @@ export default function HomeScreen() {
       title: 'Administrative Hub',
       description: 'Forms, appointments, and paperwork assistance',
       icon: '📋',
-      color: '#3B82F6',
+      color: '#2563EB',
     },
     {
       id: 'transportation',
       title: 'Transportation Hub',
       description: 'Rides and travel assistance',
       icon: '🚗',
-      color: '#10B981',
+      color: '#059669',
     },
     {
       id: 'language',
       title: 'Language Hub',
       description: 'Translation and communication help',
       icon: '🌐',
-      color: '#8B5CF6',
+      color: '#7C3AED',
     },
     {
       id: 'medical',
       title: 'Medical Hub',
       description: 'Healthcare support and guidance',
       icon: '❤️',
-      color: '#EF4444',
+      color: '#DC2626',
     },
     {
       id: 'social',
       title: 'Social Hub',
       description: 'Companionship and social activities',
       icon: '👥',
-      color: '#F59E0B',
+      color: '#D97706',
     },
   ];
 
@@ -94,114 +92,125 @@ export default function HomeScreen() {
     >
       <SafeAreaView style={styles.safeArea}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.avatarContainer}>
-            <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
-              <Text style={[styles.avatarText, { color: colors.primaryForeground }]}>M</Text>
+          {/* Header */}
+          <View style={styles.header}>
+            <View style={styles.avatarContainer}>
+              <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
+                <Text style={[styles.avatarText, { color: colors.primaryForeground }]}>M</Text>
+              </View>
+            </View>
+            <Text style={styles.welcomeText}>
+              Welcome back, Margaret!
+            </Text>
+            <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>
+              Connect with caring volunteers ready to help you with daily tasks, appointments, and more.
+            </Text>
+            <View style={[styles.badge, { backgroundColor: colors.secondary, borderColor: colors.border, borderWidth: 1 }]}>
+              <Text style={[styles.badgeText, { color: colors.foreground }]}>
+                ⏰ 3 active volunteers nearby
+              </Text>
             </View>
           </View>
-          <Text style={[styles.welcomeText, { color: colors.foreground }]}>
-            Welcome back, Margaret!
-          </Text>
-          <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>
-            Connect with caring volunteers ready to help you with daily tasks, appointments, and more.
-          </Text>
-          <View style={[styles.badge, { backgroundColor: colors.secondary }]}>
-            <Text style={[styles.badgeText, { color: colors.secondaryForeground }]}>
-              ⏰ 3 active volunteers nearby
-            </Text>
-          </View>
-        </View>
 
-        {/* Voice Agent Button */}
-        <TouchableOpacity
-          style={[styles.voiceAgentButton, { backgroundColor: '#002CF2' }]}
-          onPress={handleVoiceAgent}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.voiceAgentIcon}>🎤</Text>
-          <View style={styles.voiceAgentTextContainer}>
-            <Text style={styles.voiceAgentTitle}>Voice Assistant</Text>
-            <Text style={styles.voiceAgentSubtitle}>Chat live with your AI agent</Text>
-          </View>
-        </TouchableOpacity>
-
-        {/* Recent Activities */}
-        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <View style={styles.cardHeader}>
-            <Text style={[styles.cardTitle, { color: colors.cardForeground }]}>
-              ✅ Recent Activities
-            </Text>
-          </View>
-          <View style={styles.cardContent}>
-            {recentActivities.map((activity) => (
-              <View
-                key={activity.id}
-                style={[styles.activityItem, { backgroundColor: colors.muted }]}
-              >
-                <View style={styles.activityDot} />
-                <View style={styles.activityContent}>
-                  <Text style={[styles.activityTitle, { color: colors.foreground }]}>
-                    {activity.title}
-                  </Text>
-                  <Text style={[styles.activitySubtitle, { color: colors.mutedForeground }]}>
-                    Helped by {activity.volunteer} • {activity.time}
-                  </Text>
-                </View>
-                <View style={[styles.activityBadge, { borderColor: '#10B981' }]}>
-                  <Text style={[styles.activityBadgeText, { color: '#10B981' }]}>completed</Text>
-                </View>
-              </View>
-            ))}
-          </View>
-        </View>
-
-        {/* Service Hubs */}
-        <View style={styles.hubsSection}>
-          <Text style={[styles.sectionTitle, { color: colors.foreground }]}>
-            Choose a Service Hub
-          </Text>
-          <View style={styles.hubsGrid}>
-            {hubs.map((hub) => (
-              <TouchableOpacity
-                key={hub.id}
-                style={[styles.hubCard, { backgroundColor: colors.card, borderColor: colors.border }]}
-                onPress={() => handleNavigateToHub(hub.id)}
-                activeOpacity={0.7}
-              >
-                <View style={[styles.hubIcon, { backgroundColor: hub.color + '20' }]}>
-                  <Text style={styles.hubIconText}>{hub.icon}</Text>
-                </View>
-                <Text style={[styles.hubTitle, { color: colors.cardForeground }]}>
-                  {hub.title}
-                </Text>
-                <Text style={[styles.hubDescription, { color: colors.mutedForeground }]}>
-                  {hub.description}
-                </Text>
-                <TouchableOpacity
-                  style={[styles.hubButton, { backgroundColor: colors.primary }]}
-                  onPress={() => handleNavigateToHub(hub.id)}
-                >
-                  <Text style={[styles.hubButtonText, { color: colors.primaryForeground }]}>
-                    Get Help
-                  </Text>
-                </TouchableOpacity>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-
-        {/* Emergency Contact */}
-        <View style={[styles.emergencyCard, { backgroundColor: '#FEE2E2', borderColor: '#FCA5A5' }]}>
-          <Text style={[styles.emergencyTitle, { color: '#991B1B' }]}>Emergency Support</Text>
-          <Text style={[styles.emergencyText, { color: '#B91C1C' }]}>
-            Need immediate assistance? Our emergency volunteers are available 24/7
-          </Text>
-          <TouchableOpacity style={styles.emergencyButton}>
-            <Text style={styles.emergencyButtonText}>Contact Emergency Support</Text>
+          {/* Voice Agent Button */}
+          <TouchableOpacity
+            style={[styles.voiceAgentButton, { backgroundColor: '#2563EB' }]}
+            onPress={handleVoiceAgent}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.voiceAgentIcon}>🎤</Text>
+            <View style={styles.voiceAgentTextContainer}>
+              <Text style={styles.voiceAgentTitle}>Voice Assistant</Text>
+              <Text style={styles.voiceAgentSubtitle}>Chat live with your AI agent</Text>
+            </View>
           </TouchableOpacity>
-        </View>
+
+          {/* Recent Activities */}
+          <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View style={styles.cardHeader}>
+              <Text style={[styles.cardTitle, { color: colors.cardForeground }]}>
+                ✅ Recent Activities
+              </Text>
+            </View>
+            <View style={styles.cardContent}>
+              {recentActivities.map((activity) => (
+                <View
+                  key={activity.id}
+                  style={[
+                    styles.activityItem,
+                    {
+                      backgroundColor: colors.muted,
+                      borderLeftColor: '#059669',
+                      borderLeftWidth: 4,
+                    },
+                  ]}
+                >
+                  <View style={styles.activityContent}>
+                    <Text style={[styles.activityTitle, { color: colors.foreground }]}>
+                      {activity.title}
+                    </Text>
+                    <Text style={[styles.activitySubtitle, { color: colors.mutedForeground }]}>
+                      Helped by {activity.volunteer} • {activity.time}
+                    </Text>
+                  </View>
+                  <View style={[styles.activityBadge, { borderColor: '#059669' }]}>
+                    <Text style={[styles.activityBadgeText, { color: '#059669' }]}>completed</Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+
+          {/* Service Hubs */}
+          <View style={styles.hubsSection}>
+            <Text style={styles.sectionTitle}>
+              Choose a Service Hub
+            </Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              scrollEventThrottle={16}
+              contentContainerStyle={styles.hubsGrid}
+            >
+              {hubs.map((hub) => (
+                <TouchableOpacity
+                  key={hub.id}
+                  style={[styles.hubCard, { backgroundColor: colors.card, borderColor: colors.border }]}
+                  onPress={() => handleNavigateToHub(hub.id)}
+                  activeOpacity={0.7}
+                >
+                  <View style={[styles.hubIcon, { backgroundColor: hub.color + '20' }]}>
+                    <Text style={styles.hubIconText}>{hub.icon}</Text>
+                  </View>
+                  <Text style={[styles.hubTitle, { color: colors.cardForeground }]}>
+                    {hub.title}
+                  </Text>
+                  <Text style={[styles.hubDescription, { color: colors.mutedForeground }]}>
+                    {hub.description}
+                  </Text>
+                  <TouchableOpacity
+                    style={[styles.hubButton, { backgroundColor: colors.primary }]}
+                    onPress={() => handleNavigateToHub(hub.id)}
+                  >
+                    <Text style={[styles.hubButtonText, { color: colors.primaryForeground }]}>
+                      Get Help
+                    </Text>
+                  </TouchableOpacity>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+
+          {/* Emergency Contact */}
+          <View style={[styles.emergencyCard, { backgroundColor: '#FEE2E2', borderColor: '#DC2626' }]}>
+            <Text style={[styles.emergencyTitle, { color: '#7F1D1D' }]}>Emergency Support</Text>
+            <Text style={[styles.emergencyText, { color: '#991B1B' }]}>
+              Need immediate assistance? Our emergency volunteers are available 24/7
+            </Text>
+            <TouchableOpacity style={styles.emergencyButton}>
+              <Text style={styles.emergencyButtonText}>Contact Emergency Support</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>
@@ -220,6 +229,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: Spacing.md,
+    paddingBottom: Spacing.xl,
   },
   header: {
     alignItems: 'center',
@@ -244,12 +254,14 @@ const styles = StyleSheet.create({
     fontWeight: FontWeights.bold,
     marginBottom: Spacing.sm,
     textAlign: 'center',
+    color: '#000000',
   },
   subtitle: {
     fontSize: FontSizes.base,
     textAlign: 'center',
     marginBottom: Spacing.md,
     paddingHorizontal: Spacing.md,
+    lineHeight: 22,
   },
   badge: {
     paddingHorizontal: Spacing.md,
@@ -311,20 +323,13 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     padding: Spacing.lg,
+    gap: Spacing.sm,
   },
   activityItem: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: Spacing.md,
     borderRadius: BorderRadius.lg,
-    marginBottom: Spacing.sm,
-  },
-  activityDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#10B981',
-    marginRight: Spacing.md,
   },
   activityContent: {
     flex: 1,
@@ -333,9 +338,11 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.base,
     fontWeight: FontWeights.medium,
     marginBottom: 4,
+    lineHeight: 20,
   },
   activitySubtitle: {
     fontSize: FontSizes.sm,
+    lineHeight: 18,
   },
   activityBadge: {
     borderWidth: 1,
@@ -352,24 +359,29 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FontSizes.xl,
-    fontWeight: FontWeights.semibold,
+    fontWeight: FontWeights.bold,
     textAlign: 'center',
     marginBottom: Spacing.lg,
+    color: '#000000',
   },
   hubsGrid: {
+    flexDirection: 'row',
     gap: Spacing.md,
+    paddingHorizontal: Spacing.sm,
   },
   hubCard: {
+    width: 280,
+    height: 320,
     borderRadius: BorderRadius.xl,
     borderWidth: 1,
     padding: Spacing.lg,
     alignItems: 'center',
+    justifyContent: 'space-between',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
-    marginBottom: Spacing.md,
   },
   hubIcon: {
     width: 64,
@@ -387,11 +399,13 @@ const styles = StyleSheet.create({
     fontWeight: FontWeights.semibold,
     marginBottom: Spacing.sm,
     textAlign: 'center',
+    lineHeight: 22,
   },
   hubDescription: {
     fontSize: FontSizes.sm,
     textAlign: 'center',
     marginBottom: Spacing.md,
+    lineHeight: 18,
   },
   hubButton: {
     paddingHorizontal: Spacing.lg,
@@ -420,6 +434,7 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.base,
     textAlign: 'center',
     marginBottom: Spacing.md,
+    lineHeight: 20,
   },
   emergencyButton: {
     backgroundColor: '#DC2626',

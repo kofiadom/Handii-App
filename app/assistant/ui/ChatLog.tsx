@@ -11,6 +11,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
+import { FontSizes, FontWeights } from '@/constants/Theme';
 
 export type ChatLogProps = {
   style: StyleProp<ViewStyle>;
@@ -24,9 +25,19 @@ export default function ChatLog({ style, transcriptions }: ChatLogProps) {
     ({ item }: ListRenderItemInfo<Transcription>) => {
       const isLocalUser = item.identity === localParticipantIdentity;
       if (isLocalUser) {
-        return <UserTranscriptionText text={item.segment.text} />;
+        return (
+          <UserTranscriptionText
+            text={item.segment.text}
+            timestamp={item.segment.firstReceivedTime}
+          />
+        );
       } else {
-        return <AgentTranscriptionText text={item.segment.text} />;
+        return (
+          <AgentTranscriptionText
+            text={item.segment.text}
+            timestamp={item.segment.firstReceivedTime}
+          />
+        );
       }
     },
     [localParticipantIdentity]
@@ -43,35 +54,60 @@ export default function ChatLog({ style, transcriptions }: ChatLogProps) {
   );
 }
 
-const UserTranscriptionText = (props: { text: string }) => {
-  let { text } = props;
+const UserTranscriptionText = (props: { text: string; timestamp?: number }) => {
+  let { text, timestamp } = props;
   const colorScheme = useColorScheme();
-  const themeStyle =
-    colorScheme === 'light'
-      ? styles.userTranscriptionLight
-      : styles.userTranscriptionDark;
-  const themeTextStyle =
-    colorScheme === 'light' ? styles.lightThemeText : styles.darkThemeText;
+
+  const formatTime = (ms: number) => {
+    const date = new Date(ms);
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+  };
 
   return (
     text && (
       <View style={styles.userTranscriptionContainer}>
-        <Text style={[styles.userTranscription, themeStyle, themeTextStyle]}>
-          {text}
-        </Text>
+        <View style={styles.userMessageBubble}>
+          <Text style={styles.userMessageText}>{text}</Text>
+          {timestamp && (
+            <Text style={styles.userMessageTimestamp}>
+              {formatTime(timestamp)}
+            </Text>
+          )}
+        </View>
       </View>
     )
   );
 };
 
-const AgentTranscriptionText = (props: { text: string }) => {
-  let { text } = props;
+const AgentTranscriptionText = (props: { text: string; timestamp?: number }) => {
+  let { text, timestamp } = props;
   const colorScheme = useColorScheme();
-  const themeTextStyle =
-    colorScheme === 'light' ? styles.lightThemeText : styles.darkThemeText;
+
+  const formatTime = (ms: number) => {
+    const date = new Date(ms);
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+  };
+
   return (
     text && (
-      <Text style={[styles.agentTranscription, themeTextStyle]}>{text}</Text>
+      <View style={styles.agentTranscriptionContainer}>
+        <View style={styles.agentMessageBubble}>
+          <Text style={styles.agentMessageText}>{text}</Text>
+          {timestamp && (
+            <Text style={styles.agentMessageTimestamp}>
+              {formatTime(timestamp)}
+            </Text>
+          )}
+        </View>
+      </View>
     )
   );
 };
@@ -79,33 +115,63 @@ const AgentTranscriptionText = (props: { text: string }) => {
 const styles = StyleSheet.create({
   userTranscriptionContainer: {
     width: '100%',
-    alignContent: 'flex-end',
-  },
-  userTranscription: {
-    width: 'auto',
-    fontSize: 17,
-    alignSelf: 'flex-end',
-    borderRadius: 6,
+    alignItems: 'flex-end',
     paddingHorizontal: 12,
-    paddingVertical: 6,
-    margin: 16,
+    paddingVertical: 8,
   },
-  userTranscriptionLight: {
-    backgroundColor: '#B0B0B0',
+  userMessageBubble: {
+    maxWidth: '80%',
+    backgroundColor: '#2563EB',
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
   },
-  userTranscriptionDark: {
-    backgroundColor: '#131313',
+  userMessageText: {
+    fontSize: FontSizes.base,
+    fontWeight: FontWeights.normal,
+    color: '#FFFFFF',
+    lineHeight: 22,
+  },
+  userMessageTimestamp: {
+    fontSize: FontSizes.xs,
+    color: 'rgba(255, 255, 255, 0.7)',
+    marginTop: 4,
+    fontWeight: FontWeights.normal,
   },
 
-  agentTranscription: {
-    fontSize: 17,
-    textAlign: 'left',
-    margin: 16,
+  agentTranscriptionContainer: {
+    width: '100%',
+    alignItems: 'flex-start',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
-  lightThemeText: {
-    color: '#000000',
+  agentMessageBubble: {
+    maxWidth: '80%',
+    backgroundColor: '#F3F4F6',
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 1,
   },
-  darkThemeText: {
-    color: '#FFFFFF',
+  agentMessageText: {
+    fontSize: FontSizes.base,
+    fontWeight: FontWeights.normal,
+    color: '#1F2937',
+    lineHeight: 22,
+  },
+  agentMessageTimestamp: {
+    fontSize: FontSizes.xs,
+    color: 'rgba(31, 41, 55, 0.6)',
+    marginTop: 4,
+    fontWeight: FontWeights.normal,
   },
 });

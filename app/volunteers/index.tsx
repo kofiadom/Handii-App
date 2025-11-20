@@ -121,7 +121,12 @@ export default function VolunteersScreen() {
               <Text style={styles.cardTitle}>Here's what a volunteer can help you do</Text>
             </View>
             <View style={styles.cardContent}>
-              <View style={styles.servicesGrid}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                scrollEventThrottle={16}
+                contentContainerStyle={styles.servicesGrid}
+              >
                 {[
                   { icon: '📅', title: 'Appointment Scheduler', count: 12 },
                   { icon: '⏰', title: 'Appointment Reminder', count: 8 },
@@ -148,7 +153,7 @@ export default function VolunteersScreen() {
                     </View>
                   </View>
                 ))}
-              </View>
+              </ScrollView>
             </View>
           </View>
 
@@ -187,53 +192,25 @@ export default function VolunteersScreen() {
                       <View style={styles.volunteerInfo}>
                         <View style={styles.volunteerTitleRow}>
                           <Text style={styles.volunteerName}>{volunteer.name}</Text>
-                          <View style={styles.ratingContainer}>
-                            <Text style={styles.starIcon}>⭐</Text>
-                            <Text style={styles.ratingText}>
-                              {volunteer.years_experience > 0 ? '4.8' : 'New'}
-                            </Text>
-                          </View>
+                          <Text style={styles.availabilityBadge}>
+                            {volunteer.available ? '✅ Available' : '⏰ Later'}
+                          </Text>
                         </View>
                         <Text style={styles.volunteerBio} numberOfLines={2}>
                           {volunteer.notes || `Experienced volunteer specializing in ${volunteer.skills.split(',')[0]}`}
                         </Text>
-                        <View style={styles.volunteerStats}>
-                          <View style={styles.statItem}>
-                            <Text style={styles.statIcon}>✅</Text>
-                            <Text style={styles.statText}>
-                              {volunteer.years_experience * 50} tasks completed
-                            </Text>
-                          </View>
-                          <View style={styles.statItem}>
-                            <Text style={styles.statIcon}>📍</Text>
-                            <Text style={styles.statText}>{volunteer.location}</Text>
-                          </View>
-                        </View>
-                        <View style={styles.specialtiesContainer}>
-                          {volunteer.skills.split(',').slice(0, 3).map((skill, index) => (
-                            <View key={index} style={styles.specialtyBadge}>
-                              <Text style={styles.specialtyText}>{skill.trim()}</Text>
-                            </View>
-                          ))}
-                        </View>
-                        <View style={styles.volunteerFooter}>
-                          <Text style={styles.availabilityText}>
-                            {volunteer.available ? '✅ Available now' : '⏰ Available at 2:00 PM'}
-                          </Text>
-                          <View style={styles.actionButtons}>
-                            <TouchableOpacity style={styles.messageButton}>
-                              <Text style={styles.messageButtonText}>💬 Message</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              style={styles.viewProfileButton}
-                              onPress={() => handleVolunteerPress(volunteer.id)}
-                            >
-                              <Text style={styles.viewProfileButtonText}>View Profile</Text>
-                            </TouchableOpacity>
-                          </View>
+                        <View style={styles.volunteerMeta}>
+                          <Text style={styles.metaText}>📍 {volunteer.location}</Text>
+                          <Text style={styles.metaText}>✅ {volunteer.years_experience * 50} tasks</Text>
                         </View>
                       </View>
                     </View>
+                    <TouchableOpacity
+                      style={styles.primaryActionButton}
+                      onPress={() => handleVolunteerPress(volunteer.id)}
+                    >
+                      <Text style={styles.primaryActionButtonText}>View Profile & Connect</Text>
+                    </TouchableOpacity>
                   </TouchableOpacity>
                 ))
               )}
@@ -348,15 +325,16 @@ const styles = StyleSheet.create({
   },
   servicesGrid: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     gap: Spacing.md,
+    paddingHorizontal: Spacing.sm,
   },
   serviceItem: {
-    width: '48%',
+    width: 200,
     borderWidth: 1,
     borderColor: '#E5E7EB',
     borderRadius: BorderRadius.lg,
     padding: Spacing.md,
+    flexShrink: 0,
   },
   serviceHeader: {
     flexDirection: 'row',
@@ -573,6 +551,35 @@ const styles = StyleSheet.create({
   requestButtonText: {
     color: '#ffffff',
     fontSize: FontSizes.base,
+    fontWeight: FontWeights.semibold,
+  },
+  availabilityBadge: {
+    fontSize: FontSizes.xs,
+    fontWeight: FontWeights.medium,
+    color: '#10B981',
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 2,
+    borderRadius: BorderRadius.md,
+  },
+  volunteerMeta: {
+    flexDirection: 'row',
+    gap: Spacing.md,
+    marginTop: Spacing.sm,
+  },
+  metaText: {
+    fontSize: FontSizes.xs,
+    color: '#6B7280',
+  },
+  primaryActionButton: {
+    backgroundColor: '#3B82F6',
+    paddingVertical: Spacing.md,
+    borderRadius: BorderRadius.md,
+    alignItems: 'center',
+    marginTop: Spacing.md,
+  },
+  primaryActionButtonText: {
+    fontSize: FontSizes.sm,
+    color: '#ffffff',
     fontWeight: FontWeights.semibold,
   },
 });
